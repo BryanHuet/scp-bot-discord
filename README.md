@@ -21,3 +21,7 @@ This Discord bot is designed to detect when users talk about SCPs (Secure, Conta
 - Invite the bot to your Discord server.
 - Mention any SCP within a message (e.g., "SCP-173 is creepy!").
 - The bot will respond with the image and name of the mentioned SCP.
+
+
+## Sources
+- **SCP Database:** http://fondationscp.wikidot.com/
