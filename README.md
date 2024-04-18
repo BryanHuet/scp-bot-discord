@@ -17,6 +17,9 @@ This Discord bot is designed to detect when users talk about SCPs (Secure, Conta
     ```
 5. Run the bot using `start.sh`.
 
+## Dependencies
+- [discord.py](https://discordpy.readthedocs.io/en/stable/): Used for interacting with the Discord API.
+  
 ## Usage
 - Invite the bot to your Discord server.
 - Mention any SCP within a message (e.g., "SCP-173 is creepy!").
