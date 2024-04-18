@@ -7,21 +7,22 @@ def search_query(message):
 
     regex_engine = re.compile(r"(scp|SCP)-(\d+)")
     result = regex_engine.search(message)
-    position = result.span()
+    if result:
+        position = result.span()
 
-    query = message[position[0]:position[1]]
-    query = query.split('-')[1]
+        query = message[position[0]:position[1]]
+        query = query.split('-')[1]
 
-    while len(query) < 3:
-        query = '0'+query
+        while len(query) < 3:
+            query = '0'+query
 
-    return query
-
+        return query
+    return '-1'
 
 def get_scp_liste(url):
     request = requests.get(url)
     request.status_code
-    soup = BeautifulSoup(request.content)
+    soup = BeautifulSoup(request.content, features="lxml")
     main_div = soup.find('div', {'id': 'page-content'})
     scp_liste = main_div.find_all('a')
     return scp_liste
@@ -40,7 +41,7 @@ def get_scp_info(scp_query, scp_liste):
 
 def get_scp_img(scp_object, base_url):
     request_img = requests.get(base_url+scp_object['url'])
-    soup_scp = BeautifulSoup(request_img.content)
+    soup_scp = BeautifulSoup(request_img.content, features="lxml")
     scp_img = soup_scp.find_all("div", {"class": "scp-image-block"})
 
     if len(scp_img) >= 1:
@@ -50,9 +51,13 @@ def get_scp_img(scp_object, base_url):
 
 def search_scp(query):
     base_url = 'http://fondationscp.wikidot.com'
-
     query_int = int(query)
+    my_scp = {'name': 'NO SCP FOUND', 'img': ''}
     series = ''
+
+    if (query_int < 0) | (query_int > 9000):
+        return my_scp
+
     if 999 < query_int < 2000:
         series = '-2'
     elif 1999 < query_int < 3000:
