@@ -64,4 +64,5 @@ async def on_message(message):
                     await message.channel.send(
                         my_scp['name'], file=discord.File(data, my_scp['img']))
 
-client.run(TOKEN)
+if __name__ == '__main__':
+    client.run(TOKEN)

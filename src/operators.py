@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 
 
 def search_query(message):
-
     regex_engine = re.compile(r"(scp|SCP)-(\d+)")
     result = regex_engine.search(message)
     if result:
@@ -19,12 +18,15 @@ def search_query(message):
         return query
     return '-1'
 
+
 def get_scp_liste(url):
     request = requests.get(url)
     request.status_code
+
     soup = BeautifulSoup(request.content, features="lxml")
     main_div = soup.find('div', {'id': 'page-content'})
     scp_liste = main_div.find_all('a')
+
     return scp_liste
 
 
@@ -36,16 +38,19 @@ def get_scp_info(scp_query, scp_liste):
             scp['name'] = element.parent.get_text()
             if 'href' in element.attrs:
                 scp['url'] = element['href']
+
     return scp
 
 
 def get_scp_img(scp_object, base_url):
     request_img = requests.get(base_url+scp_object['url'])
+    
     soup_scp = BeautifulSoup(request_img.content, features="lxml")
     scp_img = soup_scp.find_all("div", {"class": "scp-image-block"})
 
     if len(scp_img) >= 1:
         scp_object['img'] = scp_img[0].img['src']
+
     return scp_object
 
 
@@ -80,4 +85,3 @@ def search_scp(query):
     my_scp = get_scp_img(my_scp, base_url)
 
     return my_scp
-
