@@ -15,7 +15,10 @@ This Discord bot is designed to detect when users talk about SCPs (Secure, Conta
     ```
     DISCORD_TOKEN=your_bot_token_here
     ```
-5. Run the bot using `start.sh`.
+## Execution
+
+- You can run the bot using `start.sh`.
+- You can use container using `docker compose up -d`.
 
 ## Dependencies
 - [discord.py](https://discordpy.readthedocs.io/en/stable/): Used for interacting with the Discord API.

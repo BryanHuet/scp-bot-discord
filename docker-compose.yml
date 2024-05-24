@@ -1,0 +1,11 @@
+services:
+  scp-bot-discord:
+    build: .
+    container_name: scp-bot-discord
+
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+    command: "python bot/src/bot.py"
+    volumes:
+      - ./bot:/usr/bot
+
