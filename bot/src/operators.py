@@ -54,7 +54,7 @@ def get_scp_img(scp_object, base_url):
     return scp_object
 
 
-def search_scp(query):
+def search_scp(query, database, page_list):
     base_url = 'http://fondationscp.wikidot.com'
     query_int = int(query)
     my_scp = {'name': 'NO SCP FOUND', 'img': ''}
@@ -80,7 +80,7 @@ def search_scp(query):
     elif 7999 < query_int < 9000:
         series = '-9'
 
-    scp_liste = get_scp_liste(base_url+'/scp-series'+series)
+    scp_liste = get_scp_liste(database+'/'+page_list+series)
     my_scp = get_scp_info(query, scp_liste)
     my_scp = get_scp_img(my_scp, base_url)
 

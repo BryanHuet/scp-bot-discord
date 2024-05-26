@@ -6,4 +6,5 @@ services:
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
     volumes:
-      - ./bot:/usr/bot
+      - ./bot:/usr/app/bot
+      - ./scripts:/usr/app/scripts

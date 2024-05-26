@@ -1,6 +1,6 @@
 FROM python
 
-COPY requirements.txt /usr/
-RUN pip install --upgrade pip && pip install -r /usr/requirements.txt
+COPY requirements.txt /usr/app/
+RUN pip install --upgrade pip && pip install -r /usr/app/requirements.txt
 
-WORKDIR /usr/
+WORKDIR /usr/app

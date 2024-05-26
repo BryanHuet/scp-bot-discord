@@ -17,7 +17,7 @@ This Discord bot is designed to detect when users talk about SCPs (Secure, Conta
     ```
 ## Execution
 
-- You can run the bot using `start.sh`.
+- You can run the bot using `scripts/start.sh`.
 - You can use container using `docker compose up -d`.
 
 ## Dependencies

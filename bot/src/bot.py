@@ -2,11 +2,13 @@ import os
 import io
 import aiohttp
 import discord
+from discord.ext import commands
 import logging
 from datetime import datetime
 
 from dotenv import load_dotenv
 from operators import search_query, search_scp
+from config import DATABASE, PAGE_LIST
 
 
 logs = f'bot/logs/{datetime.now().isoformat().replace(':', '')}.log'
@@ -23,31 +25,33 @@ logging.basicConfig(
 intents = discord.Intents.default()
 intents.message_content = True
 
-
-client = discord.Client(intents=intents)
+bot = commands.Bot(command_prefix='|', intents=intents)
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 
-@client.event
+@bot.event
 async def on_ready():
-    print(f'{client.user} has connected to Discord!')
+    print(f'{bot.user} has connected to Discord!')
 
 
-@client.event
+@bot.event
 async def on_message(message):
-    if message.author == client.user:
+    if message.author == bot.user:
         return
     if 'scp' in message.content.lower():
-        logging.info(
-            f'Find message with scp mentionned: "{message.content.lower()}" from author: "{message.author}"')
-
+        logging.info('Find message with ' +
+            f'scp mentionned: "{message.content.lower()}" ' +
+            f'from author: "{message.author}" ' +
+            f'from server: "{message.guild}'
+        )
+        
         q = search_query(message.content.lower())
         logging.info(
             f'Find scp-query: "{q}"')
         
-        my_scp = search_scp(q)
+        my_scp = search_scp(q, database=DATABASE, page_list=PAGE_LIST)
         logging.info(
             f'SCP found: {my_scp}')
         
@@ -65,4 +69,4 @@ async def on_message(message):
                         my_scp['name'], file=discord.File(data, my_scp['img']))
 
 if __name__ == '__main__':
-    client.run(TOKEN)
+    bot.run(TOKEN)
