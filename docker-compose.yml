@@ -1,6 +1,6 @@
 services:
   scp-bot-discord:
-    build: .
+    image: scp-discord-bot:latest
     container_name: scp-bot-discord
     command: "python bot/src/bot.py"
     environment:

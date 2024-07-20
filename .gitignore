@@ -2,3 +2,4 @@
 bot/src/__pycache__/*
 bot/tests/__pycache__/*
 bot/logs/*
+!.gitkeep
