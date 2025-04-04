@@ -18,6 +18,13 @@ class OperatorsTest(unittest.TestCase):
         result = search_query(message)
         self.assertEqual(result, '014')
 
+    def test_search_query2(self):
+        # given
+        message = "you should not detect me scp-test"
+
+        # then - when
+        result = search_query(message)
+        self.assertEqual(result, '-1')
 
 if __name__ == '__main__':
     unittest.main()

@@ -54,7 +54,8 @@ async def on_message(message):
         my_scp = search_scp(q, database=DATABASE, page_list=PAGE_LIST)
         logging.info(
             f'SCP found: {my_scp}')
-        
+        if my_scp['name'] == 'NO SCP FOUND':
+            return
         if my_scp['img'] == '':
             await message.channel.send(my_scp['name'])
         else:
