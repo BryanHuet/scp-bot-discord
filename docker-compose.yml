@@ -1,10 +1,10 @@
 services:
   scp-bot-discord:
-    image: scp-discord-bot:latest
+    image: scp-bot-discord:latest
     container_name: scp-bot-discord
     command: "python bot/src/bot.py"
-    environment:
-      - DISCORD_TOKEN=${DISCORD_TOKEN}
+    env_file: ".env"
     volumes:
       - ./bot:/usr/app/bot
       - ./scripts:/usr/app/scripts
+      - ${LOG_PATH}:${LOG_PATH}

@@ -11,7 +11,7 @@ from operators import search_query, search_scp
 from config import DATABASE, PAGE_LIST
 
 
-logs = f'bot/logs/{datetime.now().strftime("%Y-%m-%d")}.log'
+logs = os.getenv('LOG_PATH', '/var/log/bots') + "/scp-bot-discord.log"
 
 logging.basicConfig(
     level=logging.INFO,
