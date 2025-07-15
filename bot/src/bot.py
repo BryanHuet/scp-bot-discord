@@ -41,20 +41,25 @@ async def on_message(message):
     if message.author == bot.user:
         return
     if 'scp' in message.content.lower():
-        logging.info('Find message with ' +
-            f'scp mentionned: "{message.content.lower()}" ' +
-            f'from author: "{message.author}" ' +
-            f'from server: "{message.guild}'
-        )
-        
-        q = search_query(message.content.lower())
-        logging.info(
-            f'Find scp-query: "{q}"')
-        
-        my_scp = search_scp(q, database=DATABASE, page_list=PAGE_LIST)
-        logging.info(
-            f'SCP found: {my_scp}')
-        if my_scp['name'] == 'NO SCP FOUND':
+        message_source = message.content.lower()
+        message_author = message.author.global_name
+        message_server = message.guild.name
+
+        log = {
+            'source': message_source,
+            'author': message_author,
+            'server': message_server
+        }
+
+        query_found = search_query(message_source)
+        log['query'] = query_found
+
+        my_scp = search_scp(query_found, database=DATABASE, page_list=PAGE_LIST)
+        log['scp'] = my_scp
+    
+        logging.info(log)
+
+        if my_scp['name'] == 'NO SCP FOUND': 
             return
         if my_scp['img'] == '':
             await message.channel.send(my_scp['name'])
@@ -68,6 +73,5 @@ async def on_message(message):
                     data = io.BytesIO(await resp.read())
                     await message.channel.send(
                         my_scp['name'], file=discord.File(data, my_scp['img']))
-
 if __name__ == '__main__':
     bot.run(TOKEN)
