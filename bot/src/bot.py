@@ -5,11 +5,13 @@ import discord
 from discord.ext import commands
 import logging
 from datetime import datetime
+from setproctitle import setproctitle
 
 from dotenv import load_dotenv
 from operators import search_query, search_scp
 from config import DATABASE, PAGE_LIST
 
+setproctitle("ScpBot")
 
 logs = os.getenv('LOG_PATH', '/var/log/bots') + "/scp-bot-discord.log"
 
