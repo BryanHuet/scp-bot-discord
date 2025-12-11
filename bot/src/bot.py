@@ -67,13 +67,18 @@ async def on_message(message):
             await message.channel.send(my_scp['name'])
         else:
             # get and send img
-            async with aiohttp.ClientSession() as session:
-                async with session.get(my_scp['img']) as resp:
-                    if resp.status != 200:
-                        return await message.channel.send(
-                            'Could not download file...')
-                    data = io.BytesIO(await resp.read())
-                    await message.channel.send(
-                        my_scp['name'], file=discord.File(data, my_scp['img']))
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(my_scp['img']) as resp:
+                      if resp.status != 200:
+                          return await message.channel.send(
+                              'Could not download file...')
+                      data = io.BytesIO(await resp.read())
+                      await message.channel.send(
+                          my_scp['name'], file=discord.File(data, my_scp['img']))
+            except Exception as e:
+                await message.channel.send(my_scp['name'] + '\nLa photographie du spécimen est en attente de déclassification.')
+                raise e
+
 if __name__ == '__main__':
     bot.run(TOKEN)
