@@ -1,6 +1,6 @@
 import os
 import io
-import aiohttp
+import httpx
 import discord
 from discord.ext import commands
 import logging
@@ -68,16 +68,16 @@ async def on_message(message):
         else:
             # get and send img
             try:
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(my_scp['img']) as resp:
-                        if resp.status != 200:
-                            return await message.channel.send(
-                                'Could not download file...')
-                        data = io.BytesIO(await resp.read())
-                        await message.channel.send(
-                            my_scp['name'], file=discord.File(
-                                data, my_scp['img'])
-                        )
+                async with httpx.AsyncClient() as session:
+                    resp = await session.get(my_scp['img'])
+                    if not resp:
+                        return await message.channel.send(
+                            'Could not download file...')
+                    data = io.BytesIO(resp.content)
+                    await message.channel.send(
+                        my_scp['name'], file=discord.File(
+                            data, my_scp['img'])
+                    )
             except Exception as e:
                 await message.channel.send(
                     my_scp['name'] + '\nLa photographie du ' +
