@@ -4,7 +4,6 @@ import aiohttp
 import discord
 from discord.ext import commands
 import logging
-from datetime import datetime
 from setproctitle import setproctitle
 
 from dotenv import load_dotenv
@@ -56,12 +55,13 @@ async def on_message(message):
         query_found = search_query(message_source)
         log['query'] = query_found
 
-        my_scp = search_scp(query_found, database=DATABASE, page_list=PAGE_LIST)
+        my_scp = search_scp(
+            query_found, database=DATABASE, page_list=PAGE_LIST)
         log['scp'] = my_scp
-    
+
         logging.info(log)
 
-        if my_scp['name'] == 'NO SCP FOUND': 
+        if my_scp['name'] == 'NO SCP FOUND':
             return
         if my_scp['img'] == '':
             await message.channel.send(my_scp['name'])
@@ -70,14 +70,18 @@ async def on_message(message):
             try:
                 async with aiohttp.ClientSession() as session:
                     async with session.get(my_scp['img']) as resp:
-                      if resp.status != 200:
-                          return await message.channel.send(
-                              'Could not download file...')
-                      data = io.BytesIO(await resp.read())
-                      await message.channel.send(
-                          my_scp['name'], file=discord.File(data, my_scp['img']))
+                        if resp.status != 200:
+                            return await message.channel.send(
+                                'Could not download file...')
+                        data = io.BytesIO(await resp.read())
+                        await message.channel.send(
+                            my_scp['name'], file=discord.File(
+                                data, my_scp['img'])
+                        )
             except Exception as e:
-                await message.channel.send(my_scp['name'] + '\nLa photographie du spécimen est en attente de déclassification.')
+                await message.channel.send(
+                    my_scp['name'] + '\nLa photographie du ' +
+                    'spécimen est en attente de déclassification.')
                 raise e
 
 if __name__ == '__main__':

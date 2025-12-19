@@ -44,7 +44,7 @@ def get_scp_info(scp_query, scp_liste):
 
 def get_scp_img(scp_object, base_url):
     request_img = requests.get(base_url+scp_object['url'])
-    
+
     soup_scp = BeautifulSoup(request_img.content, features="lxml")
     scp_img = soup_scp.find_all("div", {"class": "scp-image-block"})
 
