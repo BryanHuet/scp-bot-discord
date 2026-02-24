@@ -1,8 +1,10 @@
 FROM python:3.11-slim
 
-COPY requirements.txt /usr/app/
+WORKDIR /usr/bot
+COPY requirements.txt /usr/bot/
 RUN pip install --upgrade pip \
-    && pip install -r /usr/app/requirements.txt
+    && pip install -r requirements.txt
+
 RUN mkdir /var/log/bots
 
-WORKDIR /usr/app
+CMD ["python", "src/bot.py"]
